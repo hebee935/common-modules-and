@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-export default class Request {
+export class Axios {
     url: string;
     headers: any;
     data: any;

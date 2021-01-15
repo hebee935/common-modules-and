@@ -1,4 +1,4 @@
-import Request from '../lib/request';
+import { Axios } from '../lib/axios';
 import config from '../../config.json';
 
 export class BlueHouseLab {
@@ -10,7 +10,7 @@ export class BlueHouseLab {
     receivers: string[];
     content: string;
 
-    request: any;
+    axios: any;
 
     constructor(appID: string, apiKey: string, sender: string, content: string = '') {
         this.appID = appID;
@@ -20,8 +20,8 @@ export class BlueHouseLab {
         this.content = content;
         this.credential = `Basic ${Buffer.from(this.appID + ':' + this.apiKey).toString('base64') }`;
 
-        this.request = new Request(config.bluehouselab);
-        this.request.setToken(this.credential);
+        this.axios = new Axios(config.bluehouselab);
+        this.axios.setToken(this.credential);
     }
 
     setContent(message: string): void {
@@ -38,8 +38,8 @@ export class BlueHouseLab {
 
     async sendTo(receiver: string, content?: string): Promise<any> {
         try {
-            this.request.setData({ content: content || this.content, receivers: [receiver], sender: this.sender, });
-            return await this.request.post();
+            this.axios.setData({ content: content || this.content, receivers: [receiver], sender: this.sender, });
+            return await this.axios.post();
         } catch (err) {
             console.log(err);
             return err;
@@ -48,8 +48,8 @@ export class BlueHouseLab {
 
     async sendToAll(): Promise<any> {
         try {
-            this.request.setData({ content: this.content, receivers: this.receivers, sender: this.sender, });
-            return await this.request.post();
+            this.axios.setData({ content: this.content, receivers: this.receivers, sender: this.sender, });
+            return await this.axios.post();
         } catch (err) {
             console.log(err);
             return err;
