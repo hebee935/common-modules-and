@@ -1,13 +1,14 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, Method, AxiosRequestConfig, } from 'axios';
 
 export class Axios {
-    url: string;
+    baseURL: string;
     headers: any;
+    params: any;
     data: any;
 
-    constructor (url: string) {
-        this.url = url;
-        this.headers = { 'Content-Type': 'application/json; charset=utf-8;' };
+    constructor (baseURL: string) {
+        this.baseURL = baseURL;
+        this.headers = { 'Content-Type': 'application/json;charset=utf-8;' };
     }
 
     public setHeaders(headers: any) {
@@ -22,19 +23,35 @@ export class Axios {
         this.data = data;
     }
 
-    public async get(): Promise<AxiosResponse> {
-        return await axios.get(this.url, { headers: this.headers });
+    public setParams(params: any) {
+        this.params = params;
     }
 
-    public async post(): Promise<AxiosResponse> {
-        return await axios.post(this.url, this.data, { headers: this.headers });
+    public async get(url?: string): Promise<AxiosResponse> {
+        return await axios(this.makeConfig('GET', url));
     }
 
-    public async put(): Promise<AxiosResponse> {
-        return await axios.put(this.url, this.data, { headers: this.headers });
+    public async post(url?: string): Promise<AxiosResponse> {
+        return await axios(this.makeConfig('POST', url));
+
     }
 
-    public async delete(): Promise<AxiosResponse> {
-        return await axios.delete(this.url, { headers: this.headers });
+    public async put(url?: string): Promise<AxiosResponse> {
+        return await axios(this.makeConfig('PUT', url));
+    }
+
+    public async delete(url?: string): Promise<AxiosResponse> {
+        return await axios(this.makeConfig('DELETE', url));
+    }
+
+    private makeConfig(method: Method, url?: string): AxiosRequestConfig {
+        return {
+            method,
+            baseURL: this.baseURL,
+            url,
+            headers: this.headers,
+            params: this.params,
+            data: this.data,
+        };
     }
 }

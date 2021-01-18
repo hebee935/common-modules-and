@@ -1,3 +1,5 @@
 {
-    "bluehouselab": "https://api.bluehouselab.com/smscenter/v1.0/sendsms"
+    "bluehouselab": "https://api.bluehouselab.com/smscenter/v1.0/sendsms",
+    "oepndata": "http://apis.data.go.kr",
+    "kma": "http://www.kma.go.kr/DFSROOT/POINT/DATA"
 }
